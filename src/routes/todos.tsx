@@ -1,14 +1,19 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
 
-import useCreateTodo from '../features/todos/api/mutations/use-create-todo.ts';
-import useUpdateTodo from '../features/todos/api/mutations/use-update-todo.ts';
+import useCreateTodo from "../features/todos/api/mutations/use-create-todo.ts";
+import useUpdateTodo from "../features/todos/api/mutations/use-update-todo.ts";
 import {
-    getAllTodosQuery, useGetAllTodos
-} from '../features/todos/api/queries/use-get-all-todos.ts';
-import { TodoCard, TodoFilters, TodoInputForm } from '../features/todos/components';
-import { Todo, TodoFilter } from '../features/todos/types.ts';
+  getAllTodosQuery,
+  useGetAllTodos,
+} from "../features/todos/api/queries/use-get-all-todos.ts";
+import {
+  TodoCard,
+  TodoFilters,
+  TodoInputForm,
+} from "../features/todos/components";
+import { Todo, TodoFilter } from "../features/todos/types.ts";
 
 export const Route = createFileRoute("/todos")({
   component: () => <Todos />,
@@ -21,6 +26,7 @@ function Todos() {
   const { data: todos } = useGetAllTodos();
   const { mutate: createTodo } = useCreateTodo();
   const { isPending: isUpdatingTodo, mutate: toggleTodo } = useUpdateTodo();
+
   const [filter, setFilter] = useState<TodoFilter>("all");
 
   const canRender = useCallback(
