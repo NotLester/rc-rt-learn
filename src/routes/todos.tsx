@@ -23,11 +23,11 @@ export const Route = createFileRoute("/todos")({
 });
 
 function Todos() {
+  const [filter, setFilter] = useState<TodoFilter>("all");
+
   const { data: todos } = useGetAllTodos();
   const { mutate: createTodo } = useCreateTodo();
   const { isPending: isUpdatingTodo, mutate: toggleTodo } = useUpdateTodo();
-
-  const [filter, setFilter] = useState<TodoFilter>("all");
 
   const canRender = useCallback(
     (todo: Todo) => {
