@@ -1,21 +1,16 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
-import { UseMutateFunction } from '@tanstack/react-query';
-
-import { Todo } from '../types';
+import useUpdateTodo from "../api/mutations/use-update-todo";
+import { Todo } from "../types";
 
 interface TodoCardProps {
   todo: Todo;
-  disabled: boolean;
-  toggleTodo: UseMutateFunction<Todo, Error, Todo, unknown>;
 }
 
-export default function TodoCard({
-  todo,
-  disabled,
-  toggleTodo,
-}: TodoCardProps) {
+export default function TodoCard({ todo }: TodoCardProps) {
   const [isCompleted, setIsCompleted] = useState(todo.completed);
+
+  const { isPending, mutate: toggleTodo } = useUpdateTodo();
 
   const handleToggle = useCallback(
     (todo: Todo) => {
@@ -39,7 +34,7 @@ export default function TodoCard({
             type="checkbox"
             checked={isCompleted}
             onChange={() => handleToggle(todo)}
-            disabled={disabled}
+            disabled={isPending}
             className={`
               w-5 h-5 rounded border-2 cursor-pointer
               focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
@@ -51,7 +46,7 @@ export default function TodoCard({
         </div>
         <h2
           className={`flex-1 text-lg font-medium transition-colors duration-200
-          ${disabled ? "text-gray-400" : "text-gray-700"}
+          ${isPending ? "text-gray-400" : "text-gray-700"}
           ${isCompleted ? "line-through text-gray-400" : ""}
         `}
         >
