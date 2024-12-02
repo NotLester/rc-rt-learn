@@ -27,7 +27,7 @@ function Todos() {
 
   const { data: todos } = useGetAllTodos();
   const { mutate: createTodo } = useCreateTodo();
-  const { isPending: isUpdatingTodo, mutate: toggleTodo } = useUpdateTodo();
+  const { isPending: isTogglingTodo, mutate: toggleTodo } = useUpdateTodo();
 
   const canRender = useCallback(
     (todo: Todo) => {
@@ -53,7 +53,7 @@ function Todos() {
               <TodoCard
                 todo={todo}
                 toggleTodo={toggleTodo}
-                disabled={isUpdatingTodo}
+                disabled={isTogglingTodo}
               />
             </div>
           )

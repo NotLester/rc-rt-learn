@@ -6,9 +6,9 @@ import { queryClient } from "./react-query-provider.tsx";
 const router = createRouter({
   routeTree,
   defaultPreload: "intent",
-  context: { queryClient: queryClient },
-  defaultErrorComponent: (err) => (
-    <div>Failed to load route. Reason: {err.error.message}</div>
+  context: { queryClient },
+  defaultErrorComponent: ({ error }) => (
+    <div>Failed to load route. Reason: {error.message}</div>
   ),
   defaultPendingComponent: () => <div>Loading route...</div>,
 });
