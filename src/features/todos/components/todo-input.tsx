@@ -1,11 +1,11 @@
-import { useCallback } from 'react';
-import { z } from 'zod';
+import { useCallback } from "react";
+import { z } from "zod";
 
-import { useForm } from '@tanstack/react-form';
-import { UseMutateFunction } from '@tanstack/react-query';
-import { zodValidator } from '@tanstack/zod-form-adapter';
+import { useForm } from "@tanstack/react-form";
+import { UseMutateFunction } from "@tanstack/react-query";
+import { zodValidator } from "@tanstack/zod-form-adapter";
 
-import { Todo } from '../types.ts';
+import { Todo } from "../types.ts";
 
 interface TodoInputFormProps {
   createNewTodo: UseMutateFunction<Todo, Error, Todo, unknown>;
@@ -59,17 +59,21 @@ export default function TodoInputForm({ createNewTodo }: TodoInputFormProps) {
                 placeholder="What needs to be done?"
                 className={`
                   w-full px-4 py-3 rounded-lg
+                  bg-white dark:bg-gray-700
+                  text-gray-900 dark:text-gray-100
                   border-2 transition-colors duration-200
+                  placeholder-gray-400 dark:placeholder-gray-500
                   focus:outline-none focus:ring-2 focus:ring-offset-2
+                  focus:ring-offset-gray-50 dark:focus:ring-offset-gray-900
                   ${
                     field.state.meta.errors.length
-                      ? "border-red-300 focus:border-red-500 focus:ring-red-500"
-                      : "border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                      ? "border-red-300 dark:border-red-900 focus:border-red-500 focus:ring-red-500"
+                      : "border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring-blue-500"
                   }
                 `}
               />
               {field.state.meta.errors.length > 0 && (
-                <p className="absolute -bottom-6 left-0 text-sm text-red-500">
+                <p className="absolute -bottom-6 left-0 text-sm text-red-500 dark:text-red-400">
                   {field.state.meta.errors[0]}
                 </p>
               )}
@@ -89,8 +93,8 @@ export default function TodoInputForm({ createNewTodo }: TodoInputFormProps) {
                   transition-all duration-200
                   ${
                     canSubmit
-                      ? "bg-blue-500 hover:bg-blue-600 text-white shadow-sm"
-                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                      ? "bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 text-white shadow-sm"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
                   }
                 `}
               >

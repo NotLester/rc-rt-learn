@@ -21,7 +21,7 @@ function Posts() {
   return (
     <div>
       {posts.map((post) => (
-        <div key={post.id}>
+        <div className="dark:text-white" key={post.id}>
           <h2>{post.title}</h2>
           <p>{post.body}</p>
         </div>
