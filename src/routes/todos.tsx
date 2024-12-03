@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 
 import { createFileRoute } from "@tanstack/react-router";
 
-import useCreateTodo from "../features/todos/api/mutations/use-create-todo.ts";
 import {
   getAllTodosQuery,
   useGetAllTodos,
@@ -24,7 +23,6 @@ export const Route = createFileRoute("/todos")({
 function Todos() {
   const [filter, setFilter] = useState<TodoFilter>("all");
   const { data: todos } = useGetAllTodos();
-  const { mutate: createTodo } = useCreateTodo();
 
   const canRender = useCallback(
     (todo: Todo) => {
@@ -45,7 +43,7 @@ function Todos() {
           <p className="text-gray-500 dark:text-gray-400 mb-6">
             Start by creating your first todo!
           </p>
-          <TodoInputForm createNewTodo={createTodo} />
+          <TodoInputForm />
         </div>
       </div>
     );
@@ -65,7 +63,7 @@ function Todos() {
               <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">
                 Add New Todo
               </h2>
-              <TodoInputForm createNewTodo={createTodo} />
+              <TodoInputForm />
             </section>
 
             {/* Filters Section */}
