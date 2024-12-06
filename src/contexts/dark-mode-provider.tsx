@@ -1,11 +1,5 @@
 // src/context/DarkModeContext.tsx
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 interface DarkModeContextType {
   isDarkMode: boolean;
@@ -16,7 +10,7 @@ const DarkModeContext = createContext<DarkModeContextType | undefined>(
   undefined
 );
 
-export function DarkModeProvider({ children }: { children: ReactNode }) {
+export default function DarkModeProvider({ children }: { children: ReactNode }) {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== "undefined") {
       // Check localStorage and system preference

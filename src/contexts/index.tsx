@@ -1,4 +1,4 @@
-import { DarkModeProvider } from "./dark-mode-provider.tsx";
+import DarkModeProvider from "./dark-mode-provider.tsx";
 import ReactQueryProvider from "./react-query-provider.tsx";
 import RoutesProvider from "./routes-provider.tsx";
 
