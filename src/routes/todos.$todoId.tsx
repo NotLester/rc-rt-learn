@@ -1,11 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
 
-import useGetTodoById, {
-  getTodoByIdQuery,
-} from "../features/todos/api/queries/use-get-todo-by-id";
+import useGetTodoById, { getTodoByIdQuery } from '../features/todos/api/queries/use-get-todo-by-id';
 
 export const Route = createFileRoute("/todos/$todoId")({
-  component: TodoByIdPage,
+  component: () => <TodoByIdPage />,
   loader: ({ context: { queryClient }, params }) => {
     queryClient.ensureQueryData(getTodoByIdQuery(parseInt(params.todoId)));
   },
@@ -13,7 +11,6 @@ export const Route = createFileRoute("/todos/$todoId")({
 
 function TodoByIdPage() {
   const { todoId } = Route.useParams();
-
   const { data: todo } = useGetTodoById(parseInt(todoId));
 
   return (
