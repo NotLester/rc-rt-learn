@@ -2,9 +2,8 @@ import { useCallback, useState } from "react";
 
 import { createFileRoute } from "@tanstack/react-router";
 
-import {
+import useGetAllTodos, {
   getAllTodosQuery,
-  useGetAllTodos,
 } from "../features/todos/api/queries/use-get-all-todos.ts";
 import {
   TodoCard,
@@ -14,15 +13,15 @@ import {
 import { Todo, TodoFilter } from "../features/todos/types.ts";
 
 export const Route = createFileRoute("/todos")({
-  loader: async ({ context: { queryClient } }) => {
-    await queryClient.ensureQueryData(getAllTodosQuery());
+  loader: ({ context: { queryClient } }) => {
+    queryClient.ensureQueryData(getAllTodosQuery());
   },
   component: () => <Todos />,
 });
 
 function Todos() {
   const [filter, setFilter] = useState<TodoFilter>("all");
-  const { data: todos } = useGetAllTodos();
+  const { todos } = useGetAllTodos();
 
   const canRender = useCallback(
     (todo: Todo) => {

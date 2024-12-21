@@ -1,20 +1,7 @@
-import ky from "ky";
-
-import { queryOptions, useQuery } from "@tanstack/react-query";
-
-import { Todo } from "../../types";
-
-export const getTodoByIdQuery = (id: number) => {
-  return queryOptions({
-    queryKey: ["todos", id],
-    queryFn: () => {
-      return ky
-        .get(`https://jsonplaceholder.typicode.com/todos/${id}`)
-        .json<Todo>();
-    },
-  });
-};
+import useGetAllTodos from "./use-get-all-todos";
 
 export default function useGetTodoById(id: number) {
-  return useQuery(getTodoByIdQuery(id));
+  const { todos } = useGetAllTodos();
+  const requiredTodo = todos?.find((todo) => todo.id === id);
+  return { todo: requiredTodo };
 }

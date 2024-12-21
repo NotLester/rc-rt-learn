@@ -15,4 +15,7 @@ export const getAllTodosQuery = () => {
   });
 };
 
-export const useGetAllTodos = () => useQuery(getAllTodosQuery());
+export default function useGetAllTodos() {
+  const { data: todos, ...props } = useQuery(getAllTodosQuery());
+  return { todos, ...props };
+}

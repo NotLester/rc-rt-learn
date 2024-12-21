@@ -16,5 +16,6 @@ export const getAllPostsQuery = () => {
 };
 
 export default function useGetAllPosts() {
-  return useQuery(getAllPostsQuery());
+  const { data: posts, ...props } = useQuery(getAllPostsQuery());
+  return { posts, ...props };
 }

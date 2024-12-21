@@ -1,16 +1,7 @@
-import ky from "ky";
+import useGetAllPosts from "./use-get-all-posts.ts";
 
-import { queryOptions } from "@tanstack/react-query";
-
-import { Post } from "../../types.ts";
-
-export const getPostByIdQuery = (id: number) => {
-  return queryOptions({
-    queryKey: ["posts", id.toString()],
-    queryFn: () => {
-      return ky
-        .get(`https://jsonplaceholder.typicode.com/posts/${id}`)
-        .json<Post>();
-    },
-  });
-};
+export default function useGetPostById(id: number) {
+  const { posts } = useGetAllPosts();
+  const requiredPost = posts?.find((post) => post.id === id);
+  return { post: requiredPost };
+}
