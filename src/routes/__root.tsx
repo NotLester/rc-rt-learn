@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
-import DarkModeToggle from "../shared/components/toggle-dark-mode";
+import DarkModeToggle from "../features/shared/components/toggle-dark-mode";
 
 interface Context {
   queryClient: QueryClient;

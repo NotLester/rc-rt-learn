@@ -1,9 +1,9 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 
+import ErrorComponent from "../features/shared/components/error.tsx";
+import LoadingComponent from "../features/shared/components/loading.tsx";
+import NotFound from "../features/shared/components/not-found.tsx";
 import { routeTree } from "../routeTree.gen.ts";
-import ErrorComponent from "../shared/components/error.tsx";
-import LoadingComponent from "../shared/components/loading.tsx";
-import NotFound from "../shared/components/not-found.tsx";
 import { queryClient } from "./react-query-provider.tsx";
 
 const router = createRouter({
