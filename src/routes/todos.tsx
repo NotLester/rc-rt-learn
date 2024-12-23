@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -19,33 +19,34 @@ export const Route = createFileRoute("/todos")({
   component: () => <Todos />,
 });
 
-function Todos() {
-  const [filter, setFilter] = useState<TodoFilter>("all");
-  const { todos } = useGetAllTodos();
+const TODOSPERPAGE = 10;
 
-  const canRender = useCallback(
-    (todo: Todo) => {
-      if (filter === "complete") return todo.completed;
-      if (filter === "incomplete") return !todo.completed;
-      return true;
-    },
-    [filter]
-  );
+const Todos: React.FC = () => {
+  const { todos } = useGetAllTodos();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState<TodoFilter>("all");
+
+  const filteredTodos = useMemo(() => {
+    return (
+      todos?.filter((todo: Todo) => {
+        if (filter === "complete") return todo.completed;
+        if (filter === "incomplete") return !todo.completed;
+        return true;
+      }) ?? []
+    );
+  }, [todos, filter]);
+
+  const paginatedTodos = useMemo(() => {
+    return filteredTodos.slice(
+      (currentPage - 1) * TODOSPERPAGE,
+      currentPage * TODOSPERPAGE
+    );
+  }, [filteredTodos, currentPage]);
+
+  const totalPages = Math.ceil(filteredTodos.length / TODOSPERPAGE);
 
   if (!todos || !todos.length) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-2">
-            No Todos Yet
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-6">
-            Start by creating your first todo!
-          </p>
-          <TodoInputForm />
-        </div>
-      </div>
-    );
+    return <NoTodos />;
   }
 
   return (
@@ -55,48 +56,131 @@ function Todos() {
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
             My Todos
           </h1>
-
-          <div className="space-y-6">
-            {/* Todo Input Section */}
-            <section className="border-b border-gray-200 dark:border-gray-700 pb-6">
-              <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">
-                Add New Todo
-              </h2>
-              <TodoInputForm />
-            </section>
-
-            {/* Filters Section */}
-            <section className="border-b border-gray-200 dark:border-gray-700 pb-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  Filter Todos
-                </h2>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {todos.length} {todos.length === 1 ? "todo" : "todos"}
-                </span>
-              </div>
-              <TodoFilters handleChange={setFilter} checkedFilter={filter} />
-            </section>
-
-            {/* Todos List Section */}
-            <section className="space-y-4">
-              <div className="grid gap-4">
-                {todos.map(
-                  (todo) =>
-                    canRender(todo) && (
-                      <div
-                        key={todo.id}
-                        className="transition-all duration-200 hover:translate-x-1"
-                      >
-                        <TodoCard todo={todo} />
-                      </div>
-                    )
-                )}
-              </div>
-            </section>
-          </div>
+          <TodoInputSection />
+          <FilterSection
+            filteredTodosCount={filteredTodos.length}
+            filter={filter}
+            setFilter={setFilter}
+          />
+          <TodoList todos={paginatedTodos} />
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
         </div>
       </div>
     </div>
   );
+};
+
+const TodoInputSection: React.FC = () => {
+  return (
+    <section className="border-b border-gray-200 dark:border-gray-700 pb-6">
+      <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">
+        Add New Todo
+      </h2>
+      <TodoInputForm />
+    </section>
+  );
+};
+
+interface FilterSectionProps {
+  filteredTodosCount: number;
+  filter: TodoFilter;
+  setFilter: (filter: TodoFilter) => void;
 }
+const FilterSection: React.FC<FilterSectionProps> = ({
+  filteredTodosCount,
+  filter,
+  setFilter,
+}) => {
+  return (
+    <section className="border-b border-gray-200 dark:border-gray-700 pb-6">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200 pt-3  ">
+          Filter Todos
+        </h2>
+        <span className="text-sm text-gray-500 dark:text-gray-400 pt-2">
+          {filteredTodosCount} {filteredTodosCount === 1 ? "todo" : "todos"}
+        </span>
+      </div>
+      <TodoFilters handleChange={setFilter} checkedFilter={filter} />
+    </section>
+  );
+};
+
+interface TodoListProps {
+  todos: Todo[];
+}
+const TodoList: React.FC<TodoListProps> = ({ todos }) => {
+  return (
+    <section className="space-y-4">
+      <div className="grid gap-4">
+        {todos.map((todo) => (
+          <div
+            key={todo.id}
+            className="transition-all duration-200 hover:translate-x-1"
+          >
+            <TodoCard todo={todo} />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+interface PaginationControlsProps {
+  currentPage: number;
+  totalPages: number;
+  setCurrentPage: (page: number) => void;
+}
+const PaginationControls: React.FC<PaginationControlsProps> = ({
+  currentPage,
+  totalPages,
+  setCurrentPage,
+}) => {
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+  const handlePreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  return (
+    <section className="flex justify-between items-center pt-4">
+      <button
+        className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+        onClick={handlePreviousPage}
+        disabled={currentPage === 1}
+      >
+        Previous
+      </button>
+      <span className="text-sm text-gray-500">
+        Page {currentPage} of {totalPages}
+      </span>
+      <button
+        className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+        onClick={handleNextPage}
+        disabled={currentPage === totalPages}
+      >
+        Next
+      </button>
+    </section>
+  );
+};
+
+const NoTodos: React.FC = () => {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+          No Todos Yet
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300">
+          Start by adding a new todo above
+        </p>
+      </div>
+    </div>
+  );
+};

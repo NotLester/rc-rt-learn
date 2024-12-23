@@ -1,12 +1,10 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/about")({
   component: () => <About />,
 });
 
 function About() {
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors duration-200">
       <div className="max-w-3xl mx-auto px-4">
@@ -89,15 +87,16 @@ function About() {
               <p className="text-gray-600 dark:text-gray-300 mb-4">
                 Ready to improve your productivity?
               </p>
-              <button
-                onClick={() => navigate({ to: "/todos" })}
-                className="px-6 py-2 bg-blue-500 hover:bg-blue-600 
+              <Link to="/todos">
+                <button
+                  className="px-6 py-2 bg-blue-500 hover:bg-blue-600 
                          dark:bg-blue-600 dark:hover:bg-blue-700
                          text-white rounded-lg font-medium
                          transition-colors duration-200"
-              >
-                Try Task Manager
-              </button>
+                >
+                  Try Task Manager
+                </button>
+              </Link>
             </section>
           </div>
         </div>

@@ -16,6 +16,7 @@
     "@tanstack/react-router": "^1.79.0",
     "@tanstack/zod-adapter": "^1.82.2",
     "@tanstack/zod-form-adapter": "^0.34.4",
+    "@xstate/store": "^2.6.2",
     "ky": "^1.7.2",
     "lucide-react": "^0.462.0",
     "react": "^18.3.1",

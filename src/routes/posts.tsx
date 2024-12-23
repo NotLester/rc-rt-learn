@@ -1,6 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from "@tanstack/react-router";
 
-import useGetAllPosts, { getAllPostsQuery } from '../features/posts/api/queries/use-get-all-posts';
+import useGetAllPosts, {
+  getAllPostsQuery,
+} from "../features/posts/api/queries/use-get-all-posts";
 
 export const Route = createFileRoute("/posts")({
   component: () => <Posts />,
@@ -10,7 +12,7 @@ export const Route = createFileRoute("/posts")({
 });
 
 function Posts() {
-  const { data: posts } = useGetAllPosts();
+  const { posts } = useGetAllPosts();
 
   if (!posts || !posts.length) {
     return (
@@ -86,7 +88,14 @@ function Posts() {
                     className="group/btn flex items-center space-x-2 text-sm font-medium text-blue-600 dark:text-blue-400 
                                    hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200"
                   >
-                    <span>Read more</span>
+                    <span>
+                      <Link
+                        to="/posts/$postId"
+                        params={{ postId: post.id.toString() }}
+                      >
+                        Read more
+                      </Link>
+                    </span>
                     <span className="transform group-hover/btn:translate-x-1 transition-transform duration-200">
                       →
                     </span>
