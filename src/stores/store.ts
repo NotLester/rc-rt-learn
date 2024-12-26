@@ -1,7 +1,7 @@
 import { createStore } from "@xstate/store";
 import { useSelector } from "@xstate/store/react";
 
-export const store = createStore({
+export const demoStore = createStore({
   context: {
     count: 0,
     name: "Lester",
@@ -25,11 +25,9 @@ export const store = createStore({
   },
 });
 
-export function useCount() {
-  return useSelector(store, (state) => state.context.count);
-}
-export function useName() {
-  return useSelector(store, (state) => state.context.name);
-}
+demoStore.subscribe((snapshot) => console.log(snapshot.context));
 
-store.subscribe((snapshot) => console.log(snapshot.context));
+export const useCount = () =>
+  useSelector(demoStore, (state) => state.context.count);
+export const useName = () =>
+  useSelector(demoStore, (state) => state.context.name);
