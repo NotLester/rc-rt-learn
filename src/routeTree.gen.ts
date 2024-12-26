@@ -11,20 +11,14 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TodosImport } from './routes/todos'
 import { Route as StoreLearnImport } from './routes/store-learn'
 import { Route as AboutImport } from './routes/about'
+import { Route as TodosIndexImport } from './routes/todos.index'
 import { Route as PostsIndexImport } from './routes/posts.index'
 import { Route as TodosTodoIdImport } from './routes/todos.$todoId'
 import { Route as PostsPostIdImport } from './routes/posts.$postId'
 
 // Create/Update Routes
-
-const TodosRoute = TodosImport.update({
-  id: '/todos',
-  path: '/todos',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const StoreLearnRoute = StoreLearnImport.update({
   id: '/store-learn',
@@ -38,6 +32,12 @@ const AboutRoute = AboutImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const TodosIndexRoute = TodosIndexImport.update({
+  id: '/todos/',
+  path: '/todos/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const PostsIndexRoute = PostsIndexImport.update({
   id: '/posts/',
   path: '/posts/',
@@ -45,9 +45,9 @@ const PostsIndexRoute = PostsIndexImport.update({
 } as any)
 
 const TodosTodoIdRoute = TodosTodoIdImport.update({
-  id: '/$todoId',
-  path: '/$todoId',
-  getParentRoute: () => TodosRoute,
+  id: '/todos/$todoId',
+  path: '/todos/$todoId',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const PostsPostIdRoute = PostsPostIdImport.update({
@@ -74,13 +74,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreLearnImport
       parentRoute: typeof rootRoute
     }
-    '/todos': {
-      id: '/todos'
-      path: '/todos'
-      fullPath: '/todos'
-      preLoaderRoute: typeof TodosImport
-      parentRoute: typeof rootRoute
-    }
     '/posts/$postId': {
       id: '/posts/$postId'
       path: '/posts/$postId'
@@ -90,10 +83,10 @@ declare module '@tanstack/react-router' {
     }
     '/todos/$todoId': {
       id: '/todos/$todoId'
-      path: '/$todoId'
+      path: '/todos/$todoId'
       fullPath: '/todos/$todoId'
       preLoaderRoute: typeof TodosTodoIdImport
-      parentRoute: typeof TodosImport
+      parentRoute: typeof rootRoute
     }
     '/posts/': {
       id: '/posts/'
@@ -102,47 +95,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsIndexImport
       parentRoute: typeof rootRoute
     }
+    '/todos/': {
+      id: '/todos/'
+      path: '/todos'
+      fullPath: '/todos'
+      preLoaderRoute: typeof TodosIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
-interface TodosRouteChildren {
-  TodosTodoIdRoute: typeof TodosTodoIdRoute
-}
-
-const TodosRouteChildren: TodosRouteChildren = {
-  TodosTodoIdRoute: TodosTodoIdRoute,
-}
-
-const TodosRouteWithChildren = TodosRoute._addFileChildren(TodosRouteChildren)
-
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/store-learn': typeof StoreLearnRoute
-  '/todos': typeof TodosRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
   '/posts': typeof PostsIndexRoute
+  '/todos': typeof TodosIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/store-learn': typeof StoreLearnRoute
-  '/todos': typeof TodosRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
   '/posts': typeof PostsIndexRoute
+  '/todos': typeof TodosIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/about': typeof AboutRoute
   '/store-learn': typeof StoreLearnRoute
-  '/todos': typeof TodosRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
   '/posts/': typeof PostsIndexRoute
+  '/todos/': typeof TodosIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -150,43 +140,45 @@ export interface FileRouteTypes {
   fullPaths:
     | '/about'
     | '/store-learn'
-    | '/todos'
     | '/posts/$postId'
     | '/todos/$todoId'
     | '/posts'
+    | '/todos'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
     | '/store-learn'
-    | '/todos'
     | '/posts/$postId'
     | '/todos/$todoId'
     | '/posts'
+    | '/todos'
   id:
     | '__root__'
     | '/about'
     | '/store-learn'
-    | '/todos'
     | '/posts/$postId'
     | '/todos/$todoId'
     | '/posts/'
+    | '/todos/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   StoreLearnRoute: typeof StoreLearnRoute
-  TodosRoute: typeof TodosRouteWithChildren
   PostsPostIdRoute: typeof PostsPostIdRoute
+  TodosTodoIdRoute: typeof TodosTodoIdRoute
   PostsIndexRoute: typeof PostsIndexRoute
+  TodosIndexRoute: typeof TodosIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   StoreLearnRoute: StoreLearnRoute,
-  TodosRoute: TodosRouteWithChildren,
   PostsPostIdRoute: PostsPostIdRoute,
+  TodosTodoIdRoute: TodosTodoIdRoute,
   PostsIndexRoute: PostsIndexRoute,
+  TodosIndexRoute: TodosIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -201,9 +193,10 @@ export const routeTree = rootRoute
       "children": [
         "/about",
         "/store-learn",
-        "/todos",
         "/posts/$postId",
-        "/posts/"
+        "/todos/$todoId",
+        "/posts/",
+        "/todos/"
       ]
     },
     "/about": {
@@ -212,21 +205,17 @@ export const routeTree = rootRoute
     "/store-learn": {
       "filePath": "store-learn.tsx"
     },
-    "/todos": {
-      "filePath": "todos.tsx",
-      "children": [
-        "/todos/$todoId"
-      ]
-    },
     "/posts/$postId": {
       "filePath": "posts.$postId.tsx"
     },
     "/todos/$todoId": {
-      "filePath": "todos.$todoId.tsx",
-      "parent": "/todos"
+      "filePath": "todos.$todoId.tsx"
     },
     "/posts/": {
       "filePath": "posts.index.tsx"
+    },
+    "/todos/": {
+      "filePath": "todos.index.tsx"
     }
   }
 }

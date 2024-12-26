@@ -1,18 +1,16 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
 
 import useGetAllTodos, {
-  getAllTodosQuery,
-} from "../features/todos/api/queries/use-get-all-todos.ts";
-import {
-  TodoCard,
-  TodoFilters,
-  TodoInputForm,
-} from "../features/todos/components";
-import { Todo, TodoFilter } from "../features/todos/types.ts";
+    getAllTodosQuery
+} from '../features/todos/api/queries/use-get-all-todos.ts';
+import TodoCard from '../features/todos/components/todo-card.tsx';
+import TodoFilters from '../features/todos/components/todo-filters.tsx';
+import TodoInputForm from '../features/todos/components/todo-input.tsx';
+import { Todo, TodoFilter } from '../features/todos/types.ts';
 
-export const Route = createFileRoute("/todos")({
+export const Route = createFileRoute("/todos/")({
   loader: ({ context: { queryClient } }) => {
     queryClient.ensureQueryData(getAllTodosQuery());
   },

@@ -14,8 +14,16 @@ function PostIdComponent() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 text-white">
-      <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-      <p className="text-gray-400">{post.body}</p>
+      <div className="relative p-6 rounded-lg bg-gray-800 overflow-hidden group">
+        {/* Hover Gradient Layer */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+        {/* Content */}
+        <div className="relative z-10">
+          <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
+          <p className="text-gray-400">{post.body}</p>
+        </div>
+      </div>
     </div>
   );
 }

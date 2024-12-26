@@ -6,10 +6,7 @@ export default function LoadingComponent() {
           {/* Spinner */}
           <div className="w-16 h-16 relative">
             <div className="absolute w-full h-full border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
-            <div
-              className="absolute w-full h-full border-4 border-blue-500 rounded-full 
-                            border-t-transparent animate-spin"
-            ></div>
+            <div className="absolute w-full h-full border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
           </div>
 
           <div className="mt-4">
