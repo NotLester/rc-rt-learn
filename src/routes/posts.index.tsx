@@ -1,18 +1,18 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 import useGetAllPosts, {
   getAllPostsQuery,
-} from "../features/posts/api/queries/use-get-all-posts";
+} from '../features/posts/api/queries/use-get-all-posts'
 
-export const Route = createFileRoute("/posts")({
+export const Route = createFileRoute('/posts/')({
   component: () => <Posts />,
   loader: ({ context: { queryClient } }) => {
-    queryClient.ensureQueryData(getAllPostsQuery());
+    queryClient.ensureQueryData(getAllPostsQuery())
   },
-});
+})
 
 function Posts() {
-  const { posts } = useGetAllPosts();
+  const { posts } = useGetAllPosts()
 
   if (!posts || !posts.length) {
     return (
@@ -41,7 +41,7 @@ function Posts() {
           </p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -53,7 +53,7 @@ function Posts() {
               Posts Feed
             </h1>
             <span className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm font-medium text-gray-600 dark:text-gray-300">
-              {posts.length} {posts.length === 1 ? "post" : "posts"}
+              {posts.length} {posts.length === 1 ? 'post' : 'posts'}
             </span>
           </div>
 
@@ -107,5 +107,5 @@ function Posts() {
         </div>
       </div>
     </div>
-  );
+  )
 }

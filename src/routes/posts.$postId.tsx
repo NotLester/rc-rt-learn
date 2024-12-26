@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
 
-import useGetPostById from "../features/posts/api/queries/use-get-post-by-id";
+import useGetPostById from '../features/posts/api/queries/use-get-post-by-id';
 
 export const Route = createFileRoute("/posts/$postId")({
   component: () => <PostIdComponent />,
@@ -13,9 +13,9 @@ function PostIdComponent() {
   if (!post) return <NoPost />;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-4 py-8 text-white">
       <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-      <p className="text-gray-700">{post.body}</p>
+      <p className="text-gray-400">{post.body}</p>
     </div>
   );
 }

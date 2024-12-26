@@ -2,7 +2,7 @@ export default function LoadingComponent() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
       <div className="text-center">
-        <div className="relative">
+        <div className="relative flex flex-col items-center space-y-4">
           {/* Spinner */}
           <div className="w-16 h-16 relative">
             <div className="absolute w-full h-full border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
