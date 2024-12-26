@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
 
-import { demoStore, useCount, useName } from "../stores/store";
+import { demoStore, useCount, useName } from '../stores/demoStore';
 
 export const Route = createFileRoute("/store-learn")({
   component: () => <StoreLearn />,
