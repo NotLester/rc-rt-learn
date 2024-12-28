@@ -1,7 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
 
-import { getAllTodosQuery } from '../features/todos/api/queries/use-get-all-todos';
-import useGetTodoById from '../features/todos/api/queries/use-get-todo-by-id';
+import { getAllTodosQuery } from "../../features/todos/api/queries/use-get-all-todos";
+import useGetTodoById from "../../features/todos/api/queries/use-get-todo-by-id";
 
 export const Route = createFileRoute("/todos/$todoId")({
   loader: async ({ context: { queryClient } }) => {

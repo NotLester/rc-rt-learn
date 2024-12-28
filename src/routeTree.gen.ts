@@ -13,10 +13,10 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as StoreLearnImport } from './routes/store-learn'
 import { Route as AboutImport } from './routes/about'
-import { Route as TodosIndexImport } from './routes/todos.index'
-import { Route as PostsIndexImport } from './routes/posts.index'
-import { Route as TodosTodoIdImport } from './routes/todos.$todoId'
-import { Route as PostsPostIdImport } from './routes/posts.$postId'
+import { Route as TodosIndexImport } from './routes/todos/index'
+import { Route as PostsIndexImport } from './routes/posts/index'
+import { Route as TodosTodoIdImport } from './routes/todos/$todoId'
+import { Route as PostsPostIdImport } from './routes/posts/$postId'
 
 // Create/Update Routes
 
@@ -206,16 +206,16 @@ export const routeTree = rootRoute
       "filePath": "store-learn.tsx"
     },
     "/posts/$postId": {
-      "filePath": "posts.$postId.tsx"
+      "filePath": "posts/$postId.tsx"
     },
     "/todos/$todoId": {
-      "filePath": "todos.$todoId.tsx"
+      "filePath": "todos/$todoId.tsx"
     },
     "/posts/": {
-      "filePath": "posts.index.tsx"
+      "filePath": "posts/index.tsx"
     },
     "/todos/": {
-      "filePath": "todos.index.tsx"
+      "filePath": "todos/index.tsx"
     }
   }
 }

@@ -1,5 +1,5 @@
-import { createStore } from "@xstate/store";
-import { useSelector } from "@xstate/store/react";
+import { createStore } from '@xstate/store';
+import { useSelector } from '@xstate/store/react';
 
 export const demoStore = createStore({
   context: {
@@ -8,16 +8,16 @@ export const demoStore = createStore({
   },
   on: {
     INCREMENT: {
-      count: (context) => context.count + 1,
+      count: ({ count }) => count + 1,
     },
     DECREMENT: {
-      count: (context) => context.count - 1,
+      count: ({ count }) => count - 1,
     },
     INCREMENT_BY: {
-      count: (context, event: { value: number }) => context.count + event.value,
+      count: ({ count }, event: { value: number }) => count + event.value,
     },
     DECREMENT_BY: {
-      count: (context, event: { value: number }) => context.count - event.value,
+      count: ({ count }, event: { value: number }) => count - event.value,
     },
     CHANGE_NAME: {
       name: (_, event: { name: string }) => event.name,

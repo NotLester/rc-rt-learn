@@ -34,6 +34,7 @@ function Home() {
             <div className="flex items-center gap-8">
               <Link
                 to="/todos"
+                search={{ currentPage: 1 }}
                 className="
                   px-3 py-2 rounded-md text-sm font-medium
                   transition-colors duration-200

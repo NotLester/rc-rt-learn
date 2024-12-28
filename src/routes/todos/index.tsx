@@ -1,14 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
 
 import useGetAllTodos, {
-    getAllTodosQuery
-} from '../features/todos/api/queries/use-get-all-todos.ts';
-import TodoCard from '../features/todos/components/todo-card.tsx';
-import TodoFilters from '../features/todos/components/todo-filters.tsx';
-import TodoInputForm from '../features/todos/components/todo-input.tsx';
-import { Todo, TodoFilter } from '../features/todos/types.ts';
+  getAllTodosQuery,
+} from "../../features/todos/api/queries/use-get-all-todos";
+import {
+  TodoCard,
+  TodoFilters,
+  TodoInputForm,
+} from "../../features/todos/components";
+import { Todo, TodoFilter } from "../../features/todos/types";
 
 export const Route = createFileRoute("/todos/")({
   loader: ({ context: { queryClient } }) => {
@@ -19,14 +21,14 @@ export const Route = createFileRoute("/todos/")({
 
 const TODOSPERPAGE = 10;
 
-const Todos: React.FC = () => {
+function Todos() {
   const { todos } = useGetAllTodos();
-  const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState<TodoFilter>("all");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredTodos = useMemo(() => {
     return (
-      todos?.filter((todo: Todo) => {
+      todos?.filter((todo) => {
         if (filter === "complete") return todo.completed;
         if (filter === "incomplete") return !todo.completed;
         return true;
@@ -70,9 +72,9 @@ const Todos: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-const TodoInputSection: React.FC = () => {
+function TodoInputSection() {
   return (
     <section className="border-b border-gray-200 dark:border-gray-700 pb-6">
       <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">
@@ -81,18 +83,18 @@ const TodoInputSection: React.FC = () => {
       <TodoInputForm />
     </section>
   );
-};
+}
 
 interface FilterSectionProps {
   filteredTodosCount: number;
   filter: TodoFilter;
   setFilter: (filter: TodoFilter) => void;
 }
-const FilterSection: React.FC<FilterSectionProps> = ({
+function FilterSection({
   filteredTodosCount,
   filter,
   setFilter,
-}) => {
+}: FilterSectionProps) {
   return (
     <section className="border-b border-gray-200 dark:border-gray-700 pb-6">
       <div className="flex items-center justify-between mb-4">
@@ -106,12 +108,12 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       <TodoFilters handleChange={setFilter} checkedFilter={filter} />
     </section>
   );
-};
+}
 
 interface TodoListProps {
   todos: Todo[];
 }
-const TodoList: React.FC<TodoListProps> = ({ todos }) => {
+function TodoList({ todos }: TodoListProps) {
   return (
     <section className="space-y-4">
       <div className="grid gap-4">
@@ -126,23 +128,35 @@ const TodoList: React.FC<TodoListProps> = ({ todos }) => {
       </div>
     </section>
   );
-};
+}
 
 interface PaginationControlsProps {
   currentPage: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
 }
-const PaginationControls: React.FC<PaginationControlsProps> = ({
+function PaginationControls({
   currentPage,
   totalPages,
   setCurrentPage,
-}) => {
+}: PaginationControlsProps) {
   const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
   };
+
   const handlePreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handlePageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value) && value >= 1 && value <= totalPages) {
+      setCurrentPage(value);
+    }
   };
 
   return (
@@ -154,9 +168,18 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       >
         Previous
       </button>
-      <span className="text-sm text-gray-500">
-        Page {currentPage} of {totalPages}
-      </span>
+      <div className="flex items-center space-x-2">
+        <span className="text-sm text-gray-500">Page</span>
+        <input
+          type="number"
+          min="1"
+          max={totalPages}
+          value={currentPage}
+          onChange={handlePageInput}
+          className="w-12 text-center text-sm text-gray-700 bg-gray-200 rounded"
+        />
+        <span className="text-sm text-gray-500">of {totalPages}</span>
+      </div>
       <button
         className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
         onClick={handleNextPage}
@@ -166,9 +189,9 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
       </button>
     </section>
   );
-};
+}
 
-const NoTodos: React.FC = () => {
+function NoTodos() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
@@ -181,4 +204,4 @@ const NoTodos: React.FC = () => {
       </div>
     </div>
   );
-};
+}

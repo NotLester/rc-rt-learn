@@ -1,9 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link } from "@tanstack/react-router";
 
-import useGetAllPosts, { getAllPostsQuery } from '../features/posts/api/queries/use-get-all-posts';
-import { Post } from '../features/posts/types';
+import useGetAllPosts, {
+  getAllPostsQuery,
+} from "../../features/posts/api/queries/use-get-all-posts";
+import { Post } from "../../features/posts/types";
 
 export const Route = createFileRoute("/posts/")({
   component: () => <Posts />,

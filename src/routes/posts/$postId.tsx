@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
 
-import useGetPostById from '../features/posts/api/queries/use-get-post-by-id';
+import useGetPostById from "../../features/posts/api/queries/use-get-post-by-id";
 
 export const Route = createFileRoute("/posts/$postId")({
   component: () => <PostIdComponent />,
