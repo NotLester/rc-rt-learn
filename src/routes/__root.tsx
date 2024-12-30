@@ -6,10 +6,12 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
+import { Auth } from "../features/auth/use-auth";
 import DarkModeToggle from "../features/shared/components/toggle-dark-mode";
 
 interface Context {
   queryClient: QueryClient;
+  auth: Auth;
 }
 
 export const Route = createRootRouteWithContext<Context>()({
@@ -34,7 +36,6 @@ function Home() {
             <div className="flex items-center gap-8">
               <Link
                 to="/todos"
-                search={{ currentPage: 1 }}
                 className="
                   px-3 py-2 rounded-md text-sm font-medium
                   transition-colors duration-200
@@ -75,6 +76,21 @@ function Home() {
               >
                 About
               </Link>
+              <Link
+                to="/logout"
+                className="
+                  px-3 py-2 rounded-md text-sm font-medium
+                  transition-colors duration-200
+                  text-gray-600 dark:text-gray-300 
+                  hover:text-gray-900 dark:hover:text-white 
+                  hover:bg-gray-100 dark:hover:bg-gray-700
+                  [&.active]:text-blue-600 dark:[&.active]:text-blue-400 
+                  [&.active]:bg-blue-50 dark:[&.active]:bg-blue-900/30
+                "
+              >
+                Logout
+              </Link>
+
               <DarkModeToggle />
             </div>
           </div>

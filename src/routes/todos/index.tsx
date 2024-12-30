@@ -21,7 +21,7 @@ export const Route = createFileRoute("/todos/")({
 
 const TODOSPERPAGE = 10;
 
-function Todos() {
+function Todos(): React.ReactElement {
   const { todos } = useGetAllTodos();
   const [filter, setFilter] = useState<TodoFilter>("all");
   const [currentPage, setCurrentPage] = useState(1);

@@ -12,6 +12,8 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as StoreLearnImport } from './routes/store-learn'
+import { Route as LogoutImport } from './routes/logout'
+import { Route as LoginImport } from './routes/login'
 import { Route as AboutImport } from './routes/about'
 import { Route as TodosIndexImport } from './routes/todos/index'
 import { Route as PostsIndexImport } from './routes/posts/index'
@@ -23,6 +25,18 @@ import { Route as PostsPostIdImport } from './routes/posts/$postId'
 const StoreLearnRoute = StoreLearnImport.update({
   id: '/store-learn',
   path: '/store-learn',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LogoutRoute = LogoutImport.update({
+  id: '/logout',
+  path: '/logout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,6 +81,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutImport
+      parentRoute: typeof rootRoute
+    }
     '/store-learn': {
       id: '/store-learn'
       path: '/store-learn'
@@ -109,6 +137,8 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
   '/store-learn': typeof StoreLearnRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
@@ -118,6 +148,8 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
   '/store-learn': typeof StoreLearnRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
@@ -128,6 +160,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
+  '/logout': typeof LogoutRoute
   '/store-learn': typeof StoreLearnRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
@@ -139,6 +173,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/about'
+    | '/login'
+    | '/logout'
     | '/store-learn'
     | '/posts/$postId'
     | '/todos/$todoId'
@@ -147,6 +183,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
+    | '/login'
+    | '/logout'
     | '/store-learn'
     | '/posts/$postId'
     | '/todos/$todoId'
@@ -155,6 +193,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/about'
+    | '/login'
+    | '/logout'
     | '/store-learn'
     | '/posts/$postId'
     | '/todos/$todoId'
@@ -165,6 +205,8 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
+  LoginRoute: typeof LoginRoute
+  LogoutRoute: typeof LogoutRoute
   StoreLearnRoute: typeof StoreLearnRoute
   PostsPostIdRoute: typeof PostsPostIdRoute
   TodosTodoIdRoute: typeof TodosTodoIdRoute
@@ -174,6 +216,8 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
+  LoginRoute: LoginRoute,
+  LogoutRoute: LogoutRoute,
   StoreLearnRoute: StoreLearnRoute,
   PostsPostIdRoute: PostsPostIdRoute,
   TodosTodoIdRoute: TodosTodoIdRoute,
@@ -192,6 +236,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/about",
+        "/login",
+        "/logout",
         "/store-learn",
         "/posts/$postId",
         "/todos/$todoId",
@@ -201,6 +247,12 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/login": {
+      "filePath": "login.tsx"
+    },
+    "/logout": {
+      "filePath": "logout.tsx"
     },
     "/store-learn": {
       "filePath": "store-learn.tsx"

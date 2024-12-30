@@ -1,29 +1,24 @@
-import React from "react";
+import React from 'react'
 
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 
-import useGetAllPosts, {
-  getAllPostsQuery,
-} from "../../features/posts/api/queries/use-get-all-posts";
-import { Post } from "../../features/posts/types";
-
-export const Route = createFileRoute("/posts/")({
+export const Route = createFileRoute('/_authenticated/posts/')({
   beforeLoad: ({ context: { auth } }) => {
     if (!auth.isAuthenticated()) {
-      throw redirect({ to: "/login" });
+      throw redirect({ to: '/login' })
     }
   },
   component: () => <Posts />,
   loader: async ({ context: { queryClient } }) => {
-    await queryClient.ensureQueryData(getAllPostsQuery());
+    await queryClient?.ensureQueryData(getAllPostsQuery())
   },
-});
+})
 
 function Posts() {
-  const { posts } = useGetAllPosts();
+  const { posts } = useGetAllPosts()
 
   if (!posts || !posts.length) {
-    return <NoPosts />;
+    return <NoPosts />
   }
 
   return (
@@ -35,7 +30,7 @@ function Posts() {
               Posts Feed
             </h1>
             <span className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm font-medium text-gray-600 dark:text-gray-300">
-              {posts.length} {posts.length === 1 ? "post" : "posts"}
+              {posts.length} {posts.length === 1 ? 'post' : 'posts'}
             </span>
           </div>
 
@@ -49,7 +44,7 @@ function Posts() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function NoPosts() {
@@ -79,11 +74,11 @@ function NoPosts() {
         </p>
       </div>
     </div>
-  );
+  )
 }
 
 interface PostCardProps {
-  post: Post;
+  post: Post
 }
 function PostCard({ post }: PostCardProps) {
   return (
@@ -113,5 +108,5 @@ function PostCard({ post }: PostCardProps) {
         </button>
       </div>
     </article>
-  );
+  )
 }

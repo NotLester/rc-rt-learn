@@ -1,16 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router'
 
-import useGetPostById from "../../features/posts/api/queries/use-get-post-by-id";
+import useGetPostById from '../../features/posts/api/queries/use-get-post-by-id'
 
-export const Route = createFileRoute("/posts/$postId")({
+export const Route = createFileRoute('/posts/$postId')({
   component: () => <PostIdComponent />,
-});
+})
 
 function PostIdComponent() {
-  const { postId } = Route.useParams();
-  const { post } = useGetPostById(parseInt(postId));
+  const { postId } = Route.useParams()
+  const { post } = useGetPostById(parseInt(postId))
 
-  if (!post) return <NoPost />;
+  if (!post) return <NoPost />
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 text-white">
@@ -25,7 +25,7 @@ function PostIdComponent() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function NoPost() {
@@ -40,5 +40,5 @@ function NoPost() {
         </p>
       </div>
     </div>
-  );
+  )
 }
