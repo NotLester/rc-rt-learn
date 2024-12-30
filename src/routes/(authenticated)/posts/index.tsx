@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react';
 
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 
 import useGetAllPosts, {
-  getAllPostsQuery,
-} from "../../features/posts/api/queries/use-get-all-posts";
-import { Post } from "../../features/posts/types";
+    getAllPostsQuery
+} from '../../../features/posts/api/queries/use-get-all-posts';
+import { Post } from '../../../features/posts/types';
 
-export const Route = createFileRoute("/posts/")({
+export const Route = createFileRoute("/(authenticated)/posts/")({
   beforeLoad: ({ context: { auth } }) => {
     if (!auth.isAuthenticated()) {
       throw redirect({ to: "/login" });
     }
   },
-  component: () => <Posts />,
   loader: async ({ context: { queryClient } }) => {
     await queryClient.ensureQueryData(getAllPostsQuery());
   },
+  component: () => <Posts />,
 });
 
 function Posts() {
@@ -38,17 +38,27 @@ function Posts() {
               {posts.length} {posts.length === 1 ? "post" : "posts"}
             </span>
           </div>
-
           <div className="space-y-8">
-            {posts.map((post) => (
-              <React.Fragment key={post.id}>
-                <PostCard post={post} />
-              </React.Fragment>
-            ))}
+            <PostList posts={posts} />
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+interface PostListProps {
+  posts: Post[];
+}
+function PostList({ posts }: PostListProps) {
+  return (
+    <>
+      {posts.map((post) => (
+        <React.Fragment key={post.id}>
+          <PostCard post={post} />
+        </React.Fragment>
+      ))}
+    </>
   );
 }
 

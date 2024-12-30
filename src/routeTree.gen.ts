@@ -16,9 +16,10 @@ import { Route as LogoutImport } from './routes/logout'
 import { Route as LoginImport } from './routes/login'
 import { Route as AboutImport } from './routes/about'
 import { Route as TodosIndexImport } from './routes/todos/index'
-import { Route as PostsIndexImport } from './routes/posts/index'
+import { Route as authenticatedIndexImport } from './routes/(authenticated)/index'
 import { Route as TodosTodoIdImport } from './routes/todos/$todoId'
-import { Route as PostsPostIdImport } from './routes/posts/$postId'
+import { Route as authenticatedPostsIndexImport } from './routes/(authenticated)/posts/index'
+import { Route as authenticatedPostsPostIdImport } from './routes/(authenticated)/posts/$postId'
 
 // Create/Update Routes
 
@@ -52,9 +53,9 @@ const TodosIndexRoute = TodosIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PostsIndexRoute = PostsIndexImport.update({
-  id: '/posts/',
-  path: '/posts/',
+const authenticatedIndexRoute = authenticatedIndexImport.update({
+  id: '/(authenticated)/',
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -64,8 +65,14 @@ const TodosTodoIdRoute = TodosTodoIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PostsPostIdRoute = PostsPostIdImport.update({
-  id: '/posts/$postId',
+const authenticatedPostsIndexRoute = authenticatedPostsIndexImport.update({
+  id: '/(authenticated)/posts/',
+  path: '/posts/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const authenticatedPostsPostIdRoute = authenticatedPostsPostIdImport.update({
+  id: '/(authenticated)/posts/$postId',
   path: '/posts/$postId',
   getParentRoute: () => rootRoute,
 } as any)
@@ -102,13 +109,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoreLearnImport
       parentRoute: typeof rootRoute
     }
-    '/posts/$postId': {
-      id: '/posts/$postId'
-      path: '/posts/$postId'
-      fullPath: '/posts/$postId'
-      preLoaderRoute: typeof PostsPostIdImport
-      parentRoute: typeof rootRoute
-    }
     '/todos/$todoId': {
       id: '/todos/$todoId'
       path: '/todos/$todoId'
@@ -116,11 +116,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TodosTodoIdImport
       parentRoute: typeof rootRoute
     }
-    '/posts/': {
-      id: '/posts/'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof PostsIndexImport
+    '/(authenticated)/': {
+      id: '/(authenticated)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof authenticatedIndexImport
       parentRoute: typeof rootRoute
     }
     '/todos/': {
@@ -128,6 +128,20 @@ declare module '@tanstack/react-router' {
       path: '/todos'
       fullPath: '/todos'
       preLoaderRoute: typeof TodosIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(authenticated)/posts/$postId': {
+      id: '/(authenticated)/posts/$postId'
+      path: '/posts/$postId'
+      fullPath: '/posts/$postId'
+      preLoaderRoute: typeof authenticatedPostsPostIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/(authenticated)/posts/': {
+      id: '/(authenticated)/posts/'
+      path: '/posts'
+      fullPath: '/posts'
+      preLoaderRoute: typeof authenticatedPostsIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -140,10 +154,11 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/store-learn': typeof StoreLearnRoute
-  '/posts/$postId': typeof PostsPostIdRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
-  '/posts': typeof PostsIndexRoute
+  '/': typeof authenticatedIndexRoute
   '/todos': typeof TodosIndexRoute
+  '/posts/$postId': typeof authenticatedPostsPostIdRoute
+  '/posts': typeof authenticatedPostsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -151,10 +166,11 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/store-learn': typeof StoreLearnRoute
-  '/posts/$postId': typeof PostsPostIdRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
-  '/posts': typeof PostsIndexRoute
+  '/': typeof authenticatedIndexRoute
   '/todos': typeof TodosIndexRoute
+  '/posts/$postId': typeof authenticatedPostsPostIdRoute
+  '/posts': typeof authenticatedPostsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -163,10 +179,11 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/store-learn': typeof StoreLearnRoute
-  '/posts/$postId': typeof PostsPostIdRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
-  '/posts/': typeof PostsIndexRoute
+  '/(authenticated)/': typeof authenticatedIndexRoute
   '/todos/': typeof TodosIndexRoute
+  '/(authenticated)/posts/$postId': typeof authenticatedPostsPostIdRoute
+  '/(authenticated)/posts/': typeof authenticatedPostsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -176,30 +193,33 @@ export interface FileRouteTypes {
     | '/login'
     | '/logout'
     | '/store-learn'
-    | '/posts/$postId'
     | '/todos/$todoId'
-    | '/posts'
+    | '/'
     | '/todos'
+    | '/posts/$postId'
+    | '/posts'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
     | '/login'
     | '/logout'
     | '/store-learn'
-    | '/posts/$postId'
     | '/todos/$todoId'
-    | '/posts'
+    | '/'
     | '/todos'
+    | '/posts/$postId'
+    | '/posts'
   id:
     | '__root__'
     | '/about'
     | '/login'
     | '/logout'
     | '/store-learn'
-    | '/posts/$postId'
     | '/todos/$todoId'
-    | '/posts/'
+    | '/(authenticated)/'
     | '/todos/'
+    | '/(authenticated)/posts/$postId'
+    | '/(authenticated)/posts/'
   fileRoutesById: FileRoutesById
 }
 
@@ -208,10 +228,11 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   LogoutRoute: typeof LogoutRoute
   StoreLearnRoute: typeof StoreLearnRoute
-  PostsPostIdRoute: typeof PostsPostIdRoute
   TodosTodoIdRoute: typeof TodosTodoIdRoute
-  PostsIndexRoute: typeof PostsIndexRoute
+  authenticatedIndexRoute: typeof authenticatedIndexRoute
   TodosIndexRoute: typeof TodosIndexRoute
+  authenticatedPostsPostIdRoute: typeof authenticatedPostsPostIdRoute
+  authenticatedPostsIndexRoute: typeof authenticatedPostsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -219,10 +240,11 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   LogoutRoute: LogoutRoute,
   StoreLearnRoute: StoreLearnRoute,
-  PostsPostIdRoute: PostsPostIdRoute,
   TodosTodoIdRoute: TodosTodoIdRoute,
-  PostsIndexRoute: PostsIndexRoute,
+  authenticatedIndexRoute: authenticatedIndexRoute,
   TodosIndexRoute: TodosIndexRoute,
+  authenticatedPostsPostIdRoute: authenticatedPostsPostIdRoute,
+  authenticatedPostsIndexRoute: authenticatedPostsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -239,10 +261,11 @@ export const routeTree = rootRoute
         "/login",
         "/logout",
         "/store-learn",
-        "/posts/$postId",
         "/todos/$todoId",
-        "/posts/",
-        "/todos/"
+        "/(authenticated)/",
+        "/todos/",
+        "/(authenticated)/posts/$postId",
+        "/(authenticated)/posts/"
       ]
     },
     "/about": {
@@ -257,17 +280,20 @@ export const routeTree = rootRoute
     "/store-learn": {
       "filePath": "store-learn.tsx"
     },
-    "/posts/$postId": {
-      "filePath": "posts/$postId.tsx"
-    },
     "/todos/$todoId": {
       "filePath": "todos/$todoId.tsx"
     },
-    "/posts/": {
-      "filePath": "posts/index.tsx"
+    "/(authenticated)/": {
+      "filePath": "(authenticated)/index.tsx"
     },
     "/todos/": {
       "filePath": "todos/index.tsx"
+    },
+    "/(authenticated)/posts/$postId": {
+      "filePath": "(authenticated)/posts/$postId.tsx"
+    },
+    "/(authenticated)/posts/": {
+      "filePath": "(authenticated)/posts/index.tsx"
     }
   }
 }
